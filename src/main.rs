@@ -1,8 +1,8 @@
 use difference::{Changeset, Difference};
 use headless_chrome::{Browser, LaunchOptions};
-use reqwest::blocking::{Client, multipart};
+use reqwest::blocking::{multipart, Client};
 use std::env;
-use std::fs::{File, read_to_string};
+use std::fs::{read_to_string, File};
 use std::io::Read;
 use std::io::Write;
 use std::time::Duration;
@@ -85,6 +85,11 @@ fn main() {
             send_discord_notification_with_screenshot(&changes_for_discord, screenshot_path);
         }
     }
+
+    #[cfg(not(debug_assertions))]
+    println!("\n🕒 Closing in 30 seconds...");
+    #[cfg(not(debug_assertions))]
+    std::thread::sleep(Duration::from_secs(30));
 }
 
 fn take_screenshot(url: &str, path: &str) -> Result<(), Box<dyn std::error::Error>> {
