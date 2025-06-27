@@ -1,8 +1,8 @@
 use difference::{Changeset, Difference};
 use headless_chrome::{Browser, LaunchOptions};
-use reqwest::blocking::{multipart, Client};
+use reqwest::blocking::{Client, multipart};
 use std::env;
-use std::fs::{read_to_string, File};
+use std::fs::{File, read_to_string};
 use std::io::Read;
 use std::io::Write;
 use std::time::Duration;
@@ -40,7 +40,8 @@ fn main() {
         }
     };
 
-    let snapshot_path = "kiit_snapshot.html";
+    let snapshot_path = "snapshot/kiit_snapshot.html";
+
     let old_html = read_to_string(snapshot_path).unwrap_or_else(|_| {
         println!("No Snapshot Found - creating one now (Rerun the program to detect changes)");
         save_snapshot(&html);
